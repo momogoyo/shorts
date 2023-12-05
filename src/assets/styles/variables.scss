@@ -1,0 +1,51 @@
+:root {
+  // size
+  --avatar-size: 32px;
+
+  // margin
+  --margin-2x: 8px;
+  --margin-4x: 16px;
+  --margin-6x: 24px;
+  --margin-8x: 32px;
+  --margin-10x: 40px;
+  --margin-12x: 48px;
+  --margin-14x: 56px;
+  --margin-16x: 64px;
+
+  // color
+  --primary-color: #1350f9;
+  --primary-text-color: #FFFFFF;
+  --primary-background-color: #1B1B1B;
+  --secondary-text-color: #A5A5A5;
+  
+  // button
+  --button-icon-color: #FFFFFF;
+  --button-text-color: #FFFFFF;
+  --button-background-color: rgba(0, 0, 0, 0.4);
+  --button-padding: 10px 16px;
+
+  // modal
+  --modal-backdrop-dark: rgba(0, 0, 0, .85);
+  --modal-backdrop-default: rgba(0, 0, 0, .65);
+  --modal-background-color: #252525;
+  --modal-border-radius: 12px;
+  --modal-padding: 16px;
+  --modal-z-index: 100;
+
+  // font-size
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-18: 18px;
+  --font-size-24: 24px;
+  --font-size-32: 32px;
+
+  // line-height
+  --line-height-14: 18px;
+  --line-height-16: 24px;
+  --line-height-18: 24px;
+  --line-height-24: 27px;
+  --line-height-32: 40px;
+
+  // gradient
+  --gradient: linear-gradient(0deg, rgba(0, 0, 0, .35) 0, rgba(0, 0, 0, 0) 30%,rgba(0, 0, 0, 0) 80%, rgba(0, 0, 0, .35) 100%);
+}

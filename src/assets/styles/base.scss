@@ -1,0 +1,14 @@
+html {
+  scroll-snap-type: y mandatory;
+}
+
+body {
+  position: relative;
+  height: 100%;
+}
+
+.hidden {
+  position: absolute;
+  top: -9999px;
+  overflow: hidden; 
+}
