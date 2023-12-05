@@ -3,14 +3,15 @@ import {
   ref,
   onMounted
 } from 'vue'
-import { Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
+import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css/pagination'
 import { fetchData } from '@/mocks/fetchers'
 import Video from '@/components/Video'
+import VideoSidebar from '@/components/Video/Sidebar.vue'
 
 const videoData = ref({})
-const modules = ref([Mousewheel, Navigation, Pagination, Scrollbar, A11y])
+const modules = ref([Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y])
 
 const getData = async () => {
   try {
@@ -42,26 +43,41 @@ onMounted(async () => {
       :pagination="{
         clickable: true,
       }"
+      :keyboard="{
+      enabled: true,
+      }"
+      :loop="true"
     >
       <swiper-slide class="short" v-for="video of videoData">
         <Video v-bind="video" />
+
+        <!-- <VideoSidebar
+          :likes="videoData.likes"
+          :messages="videoData.messages"
+          :shares="videoData.shares"
+        /> -->
       </swiper-slide>
     </swiper>
   </div>
 </template>
 
 <style lang="scss">
-.swiper {
-  width: 600px;
-  height: 300px;
-}
+.shorts {
+  height: 100vh;
+  background-color: #ffffff;
+  display: grid;
+  place-items: center;
 
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .swiper {
+    width: 100vw;
+    height: 100vh;
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>

@@ -34,12 +34,9 @@ const props = withDefaults(defineProps<{
       <div class="ticker">
         <div class="ticker-icon" v-html="Music()"></div>
         <div class="ticker-bgm">
-          <p>{{ props.bgm }}</p>
+          <p>{{ props.bgm }}dkjfhskdjfhskdj</p>
         </div>
       </div>
-    </div>
-    <div class="video-footer--record">
-      <i v-html="Record()"></i>
     </div>
   </div>
 </template>
@@ -48,20 +45,18 @@ const props = withDefaults(defineProps<{
 .video-footer {
   position: relative;
   color: white;
-  bottom: 150px;
-  margin-left: 40px;
   display: flex;
+  margin-top: auto;
 
-  
   &--metadata {
     flex: 1;
     
     .channel {
-      padding-bottom: 20px;
+      /* padding-bottom: 20px; */
     }
 
     .description {
-      padding-bottom: 20px;
+      /* padding-bottom: 20px; */
     }
 
     .ticker {

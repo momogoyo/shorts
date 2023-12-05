@@ -7,7 +7,7 @@ import {
 } from 'vue'
 import VideoHeader from './Header.vue'
 import Player from '@/components/Player'
-import VideoSidebar from './Sidebar.vue'
+// import VideoSidebar from './Sidebar.vue'
 import VideoFooter from './Footer.vue'
 
 const prefixClass = ref('video')
@@ -50,26 +50,55 @@ const props = withDefaults(defineProps<{
 -->
 <template>
   <div :class="classes">
-    <VideoHeader />
     <Player
       :source="props.source"
       :autoplay="props.autoplay"
       :muted="props.muted"
       :loop="props.loop"
     />
-    <VideoFooter
-      :channel="props.channel"
-      :description="props.description"
-      :bgm="props.bgm"
-    />
-    <VideoSidebar
-      :likes="props.likes"
-      :messages="props.messages"
-      :shares="props.shares"
-    />
+    <div class="video-overlay">
+      <VideoHeader />
+      <VideoFooter
+        :channel="props.channel"
+        :description="props.description"
+        :bgm="props.bgm"
+      />
+
+      <div class="progress">
+        <div class="progress-track">
+          <div class="progress-filled"></div>
+        </div>
+      </div> 
+    </div>
+    
   </div>
 </template>
 
 <style scoped lang="scss">
+.video {
+  position: relative;
+  height: 800px;
+  border-radius: 20px;
+  overflow: scroll;
+  width: 80%;
+  max-width: 500px;
+  scroll-snap-type: y mandatory;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
+
+  .video-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
 </style>

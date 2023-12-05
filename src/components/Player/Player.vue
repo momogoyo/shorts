@@ -29,24 +29,28 @@ const classes = computed(() => {
 
 <template>
   <div :class="classes">
-    <!-- <div class="container"> -->
-      <video
-        :src="props.source"
-        :autoplay="props.autoplay"
-        :muted="props.muted"
-        :loop="props.loop"
-        crossorigin="anonymous"
-      />
-    <!-- </div> -->
-
-    <!-- <div class="progress">
-      <div class="progress-track">
-        <div class="progress-filled"></div>
-      </div>
-    </div> -->
+    <video
+      :src="props.source"
+      :autoplay="props.autoplay"
+      :muted="props.muted"
+      :loop="props.loop"
+      crossorigin="anonymous"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
+.player {
+  position: relative;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  scroll-snap-align: start;
 
+  video {
+    object-fit: fill;
+  width: 100%;
+  
+  }
+}
 </style>

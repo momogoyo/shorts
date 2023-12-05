@@ -20,5 +20,10 @@ const emits = defineEmits(['play', 'muted'])
 </template>
 
 <style scoped lang="scss">
-
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  z-index: 2;
+}
 </style>
