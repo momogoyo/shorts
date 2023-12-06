@@ -44,10 +44,7 @@ const props = withDefaults(defineProps<{
   shares: ''
 })
 </script>
-<!-- 
-  회원 정보와 다른것만
-  플레이어 제어는 상태관리 이용해볼까나... 우선은 emit으로
--->
+
 <template>
   <div :class="classes">
     <Player

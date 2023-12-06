@@ -8,7 +8,6 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css/pagination'
 import { fetchData } from '@/mocks/fetchers'
 import Video from '@/components/Video'
-import VideoSidebar from '@/components/Video/Sidebar.vue'
 
 const videoData = ref({})
 const modules = ref([Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y])
@@ -44,18 +43,13 @@ onMounted(async () => {
         clickable: true,
       }"
       :keyboard="{
-      enabled: true,
+        enabled: true,
       }"
+      :speed="500"
       :loop="true"
     >
       <swiper-slide class="short" v-for="video of videoData">
         <Video v-bind="video" />
-
-        <!-- <VideoSidebar
-          :likes="videoData.likes"
-          :messages="videoData.messages"
-          :shares="videoData.shares"
-        /> -->
       </swiper-slide>
     </swiper>
   </div>
