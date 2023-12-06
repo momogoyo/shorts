@@ -6,7 +6,7 @@ import {
 import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css/pagination'
-import { fetchData } from '@/mocks/fetchers'
+import { fetchMediaData } from '@/mocks/fetchers'
 import Video from '@/components/Video'
 
 const videoData = ref({})
@@ -14,11 +14,10 @@ const modules = ref([Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A1
 
 const getData = async () => {
   try {
-    const { data } = await fetchData()
+    const { data } = await fetchMediaData(3, 'next', '0')
     
     for (const key in data) {
       videoData.value[key] = ref(data[key])
-      console.log(videoData.value[key])
     }
   } catch (error) {
     console.error('', error)

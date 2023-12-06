@@ -1,3 +1,3 @@
-import Video from './Video.vue'
+import Video from './sample.vue'
 
 export default Video
