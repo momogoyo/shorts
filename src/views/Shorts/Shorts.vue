@@ -6,26 +6,32 @@ import {
 import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/css/pagination'
-import { fetchMediaData } from '@/mocks/fetchers'
+// import { fetchMediaData } from '@/mocks/fetchers'
 import Video from '@/components/Video'
 
-const videoData = ref({})
+const props = withDefaults(defineProps<{
+  videoData: {}
+}>(), {
+  videoData: null
+})
+
 const modules = ref([Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y])
 
-const getData = async () => {
-  try {
-    const { data } = await fetchMediaData(3, 'next', '0')
+// const getData = async () => {
+//   try {
+//     const { data } = await fetchMediaData(3, 'next', '0')
     
-    for (const key in data) {
-      videoData.value[key] = ref(data[key])
-    }
-  } catch (error) {
-    console.error('', error)
-  }
-}
+//     for (const key in data) {
+//       videoData.value[key] = ref(data[key])
+//     }
+//   } catch (error) {
+//     console.error('', error)
+//   }
+// }
 
 onMounted(async () => {
-  await getData()
+//   await getData()
+console.log(props.videoData)
 })
 </script>
 
@@ -47,8 +53,9 @@ onMounted(async () => {
       :speed="500"
       :loop="true"
     >
-      <swiper-slide class="short" v-for="video of videoData">
-        <Video v-bind="video" />
+      <swiper-slide class="short" v-for="video of props.videoData">
+        {{ video }}
+        <!-- <Video v-bind="video" /> -->
       </swiper-slide>
     </swiper>
   </div>

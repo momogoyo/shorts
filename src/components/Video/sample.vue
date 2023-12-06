@@ -4,6 +4,7 @@ import {
   onMounted
 } from 'vue'
 import { fetchMediaData } from '@/mocks/fetchers'
+import Shorts from '@/views/Shorts'
 
 const videoData = ref({})
 
@@ -23,7 +24,15 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="short" v-for="video of videoData">
-      {{ video }}
-    </div>
+  <Shorts :videoData="videoData" />
+  
+  <!-- <shorts>
+    <shorts-item v-for="video of videoData">
+      <Video-component :source="url" :autoplay="true" />
+      <div class="metadata">
+        채널명
+        타이틀
+      </div>
+    </shorts-item>
+  </shorts> -->
 </template>
