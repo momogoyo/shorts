@@ -10,11 +10,11 @@ const router = createRouter({
       name: 'shorts',
       component: Shorts
     },
-    {
-      path: '/sample',
-      name: 'Sample',
-      component: Sample
-    }
+    // {
+    //   path: '/sample',
+    //   name: 'Sample',
+    //   component: Sample
+    // }
   ]
 })
 
