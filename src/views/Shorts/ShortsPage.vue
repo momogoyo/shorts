@@ -33,6 +33,8 @@ const fetchData = async (limit, direction, currentIndex) => {
 }
 
 const slideTransition = async (value) => {
+  if (value.currentIndex === 0) return
+  
   await fetchData(3, value.direction, value.currentIndex)
 }
 </script>

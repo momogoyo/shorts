@@ -20,14 +20,13 @@ export const handlers = [
     if (direction === 'next') {
       startIndex = currentIndex
     } else if (direction === 'prev') {
-      startIndex = Math.max(0, currentIndex - limitValue)
+      startIndex = Math.max(0, currentIndex - (limitValue * 2))
     }
 
-    const endIndex = startIndex + limitValue;
+    const endIndex = startIndex + limitValue
     currentIndex = endIndex
 
     const selectedMedia = mediaData.slice(startIndex, endIndex)
-    console.log(startIndex, endIndex)
 
     return HttpResponse.json({ media: selectedMedia })
   })
