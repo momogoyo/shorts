@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Shorts from '@/views/Shorts'
-import Sample from '@/components/Video/sample.vue'
+import ShortsPage from '@/views/Shorts'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,13 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'shorts',
-      component: Shorts
-    },
-    // {
-    //   path: '/sample',
-    //   name: 'Sample',
-    //   component: Sample
-    // }
+      component: ShortsPage
+    }
   ]
 })
 

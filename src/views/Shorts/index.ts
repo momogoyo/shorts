@@ -1,3 +1,3 @@
-import Shorts from './Shorts.vue'
+import ShortsPage from './ShortsPage.vue'
 
-export default Shorts
+export default ShortsPage
