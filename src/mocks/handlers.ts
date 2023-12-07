@@ -9,7 +9,7 @@ let currentIndex = 0
 export const handlers = [
   http.get(`/api/media`, ({ request }) => {
     const url = new URL(request.url)
-
+    
     const limit = url.searchParams.get('limit')
     const direction = url.searchParams.get('direction')
 

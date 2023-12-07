@@ -1,7 +1,9 @@
 <script setup lang="ts">
   import {
     ref,
-    onMounted
+    onMounted,
+    withDefaults,
+    defineProps
   } from 'vue'
   import { SwiperSlide, useSwiper } from 'swiper/vue'
   import 'swiper/css/pagination'
@@ -10,10 +12,10 @@
     mediaData: {
       source: string
     },
-    videoOptions: {
-      autoplay: boolean
-      muted: boolean
-      loop: boolean
+    videoOptions?: {
+      autoplay?: boolean
+      muted?: boolean
+      loop?: boolean
     }
   }>(), {
     mediaData: {
@@ -66,6 +68,7 @@
   .shorts-inner {
     position: relative;
     max-width: 520px;
+    width: 100%;
     height: 90vh;
     border-radius: 12px;
     overflow: hidden;
