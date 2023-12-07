@@ -20,7 +20,7 @@ const swiperOptions = ref({
 })
 
 onMounted(async () => {
-  await fetchData(3, 'next', 0)
+  await fetchData(3, '', 0)
 })
 
 const fetchData = async (limit, direction, currentIndex) => {

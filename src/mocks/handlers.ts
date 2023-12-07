@@ -4,32 +4,30 @@ import {
 } from 'msw'
 import { mediaData } from './data/index'
 
+let currentIndex = 0
+
 export const handlers = [
   http.get(`/api/media`, ({ request }) => {
     const url = new URL(request.url)
-    // limit: 받아올 데이터 수
-    // direction: swiper 위치
-    // currentMediaId: 현재 미디어의 id
+
     const limit = url.searchParams.get('limit')
     const direction = url.searchParams.get('direction')
-    const currentMediaId = url.searchParams.get('currentMediaId')
 
-    // 파라미터 추출 및 기본값 설정
     const limitValue = limit ? parseInt(limit, 10) : 3
-    const currentId = currentMediaId ? parseInt(currentMediaId, 10) : 0
-
-    // 스와이프 방향에 따른 데이터
-    let startIndex = currentId
+    
+    let startIndex = currentIndex
 
     if (direction === 'next') {
-      startIndex = Math.max(0, currentId - limitValue)
+      startIndex = currentIndex
     } else if (direction === 'prev') {
-      startIndex = Math.min(100 - limitValue, currentId + 1)
+      startIndex = Math.max(0, currentIndex - limitValue)
     }
 
-    const endIndex = startIndex + limitValue
+    const endIndex = startIndex + limitValue;
+    currentIndex = endIndex
 
     const selectedMedia = mediaData.slice(startIndex, endIndex)
+    console.log(startIndex, endIndex)
 
     return HttpResponse.json({ media: selectedMedia })
   })
