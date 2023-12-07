@@ -9,9 +9,21 @@
   const props = withDefaults(defineProps<{
     mediaData: {
       source: string
+    },
+    videoOptions: {
+      autoplay: boolean
+      muted: boolean
+      loop: boolean
     }
   }>(), {
-    
+    mediaData: {
+      source: ''
+    },
+    videoOptions: {
+      autoplay: false,
+      muted: true,
+      loop: false
+    }
   })
 
   const root = ref(null)
@@ -30,7 +42,12 @@
     <div class="shorts-item">
       <div class="shorts-inner">
         <div class="shorts-media">
-          <video :src="props.mediaData.source" autoplay muted loop />
+          <video
+            :src="props.mediaData.source"
+            :autoplay="props.videoOptions.autoplay"
+            :muted="props.videoOptions.muted"
+            :loop="props.videoOptions.loop"
+          />
         </div>
         <slot></slot>
       </div>

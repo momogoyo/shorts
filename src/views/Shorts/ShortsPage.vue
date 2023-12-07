@@ -7,6 +7,11 @@ import { fetchMediaData } from '@/mocks/fetchers'
 import { Shorts, ShortsItem } from '@/components/Shorts'
 
 const mediaDataList = ref([])
+const videoOptions = ref({
+  autoplay: true,
+  muted: true,
+  loop: false
+})
 const swiperOptions = ref({
   slidesPerView: 1,
   spaceBetween: 30,
@@ -41,8 +46,7 @@ const slideTransition = async (value) => {
 
 <template>
   <shorts :swiperOptions="swiperOptions" @slideTransition="slideTransition">
-    <shorts-item v-for="mediaData of mediaDataList" :mediaData="mediaData">
-
+    <shorts-item v-for="mediaData of mediaDataList" :mediaData="mediaData" :videoOptions="videoOptions">
       <div class="overlay">
         <div class="title">
           <p class="">{{ mediaData.description }}</p>
