@@ -13,6 +13,7 @@
       source: string
     },
     videoOptions?: {
+      controls?: boolean
       autoplay?: boolean
       muted?: boolean
       loop?: boolean
@@ -22,6 +23,7 @@
       source: ''
     },
     videoOptions: {
+      controls: true
       autoplay: false,
       muted: true,
       loop: false
@@ -50,6 +52,10 @@
             :muted="props.videoOptions.muted"
             :loop="props.videoOptions.loop"
           />
+
+          <div v-if="props.videoOptions.controls" class="progress-bar">
+            
+          </div>
         </div>
         <slot></slot>
       </div>
