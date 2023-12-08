@@ -5,9 +5,23 @@
   import { Swiper } from 'swiper/vue'
   import 'swiper/css/pagination'
 
-  const props = defineProps({
-    swiperOptions: null
+  const defaultSwiperOptions = {
+    slidesPerView: 'auto',
+    spaceBetween: 30,
+    direction: 'vertical',
+    mousewheel: true,
+    pagination: { clickable: true },
+    keyboard: { enabled: true },
+    speed: 500,
+    loop: true    
+  }
+
+  const props = withDefaults(defineProps<{
+    swiperOptions: any
+  }>(), {
+    swiperOptions: {}
   })
+
   const emit = defineEmits(['slideTransition'])
 
   const modules = ref([
@@ -29,13 +43,18 @@
       })
     }
   }
+
+console.log(props.swiperOptions)
 </script>
 
 <template>
   <div class="shorts">
     <swiper
       :modules="modules"
-      v-bind="props.swiperOptions"
+      v-bind="{
+        ...defaultSwiperOptions,
+        ...props.swiperOptions
+      }"
       @slideChangeTransitionStart="slideChangeTransitionStart"
     >
       <slot></slot>

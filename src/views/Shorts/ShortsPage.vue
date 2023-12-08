@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import {
+  defineProps,
+  PropType,
   ref,
-  onMounted
+  onMounted,
+  watch
 } from 'vue'
 import { fetchMediaData } from '@/mocks/fetchers'
 import { Shorts, ShortsItem } from '@/components/Shorts'
 
 const mediaDataList = ref([])
+const currentSlideIndex = ref(0)
+const swiper = ref(null)
 
 const videoOptions = ref({
   autoplay: true,
@@ -14,56 +19,124 @@ const videoOptions = ref({
   loop: true
 })
 
-const props = withDefaults(defineProps<{
-  swiperOptions?: {
-    slidesPerView: number
-    spaceBetween: number
-    direction: 'vertical' | 'horizontal'
-    mousewheel: boolean
-    pagination: {}
-    keyboard: {},
-    speed: number,
-    loop: boolean
-  }
-}>(), {
-  swiperOptions: {
-    slidesPerView: 1,
-    spaceBetween: 30,
-    direction: 'vertical',
-    mousewheel: true,
-    pagination: { clickable: true },
-    keyboard: { enabled: true },
-    speed: 500,
-    loop: true
-  }
-})
 
-// 다른 props랑 합치기
+
 
 onMounted(async () => {
-  await fetchData(3, '', 0)
+  await fetchData({
+    currentIndex: 0,
+    limit: 3,
+    direction: ''
+  })
 })
 
-const fetchData = async (limit, direction, currentIndex) => {
+const fetchData = async ({ 
+  currentIndex = 0,
+  limit = 3,
+  direction = 'next'
+}) => {
+  // 0번째부터 시작
+  // 그 다음 데이터 2개 가져옴
   try {
-    const response = await fetchMediaData({ limit, direction, currentIndex })
-    mediaDataList.value.push(...response.data.media)
+    const response = await fetchMediaData({ currentIndex, limit, direction })
+    const mediaData = response.data.media.map(item => ({ ...item, loaded: false }))
+
+    mediaDataList.value = [
+      ...mediaDataList.value.splice(-3),
+      ...mediaData
+    ]
+    
+    mediaDataList.value.forEach(item=> console.log(item.id))
   } catch (error) {
     console.error('API 요청 중 오류 발생:', error)
   }
 }
 
 const slideTransition = async (value) => {
-  if (value.currentIndex === 0) return
+  currentSlideIndex.value = value.currentIndex
   
-  await fetchData(3, value.direction, value.currentIndex)
+  if ((value.currentIndex + 1) % 3 === 0) {
+    await fetchData({
+      currentIndex: value.currentIndex,
+      direction: value.direction,
+    })
+  }
 }
+
+const onLoadedVideo = (index) => {
+  const isLoadedTarget = 
+    index === currentSlideIndex.value || 
+    index === currentSlideIndex.value - 1 ||
+    index === currentSlideIndex.value + 1
+
+  return isLoadedTarget
+}
+
+// 비디오 로드
+const updateVideoLoadState = () => {
+  mediaDataList.value.forEach((item, index) => {
+    item.loaded = onLoadedVideo(index)
+  })
+}
+
+// 비디오 로드 완료 처리
+const handleVideoLoaded = (index) => {
+  if (mediaDataList.value[index]) {
+    mediaDataList.value[index].loaded = true
+  }
+}
+
+const slideChange = (value) => {
+  const { activeIndex } = value
+
+  // fetchData(3, 'prev', activeIndex - 3)
+  // fetchData(3, 'next', activeIndex + 1)
+
+  // 이전, 다음 슬라이드의 비디오 로드
+  mediaDataList.value.forEach((item, index) => {
+    item.loaded = index === activeIndex - 1 || index === activeIndex + 1
+  })
+}
+
+// watch(currentSlideIndex, updateVideoLoadState)
+
+const onSlidePrevTransitionEnd = () => {
+  
+}
+
+const onSlideNextTransitionEnd = async (_swiper) => {
+
+}
+
 </script>
 
 <template>
-  <shorts :swiperOptions="props.swiperOptions" @slideTransition="slideTransition">
-    <shorts-item v-for="mediaData of mediaDataList" :mediaData="mediaData" :videoOptions="videoOptions">
-      <div class="overlay">
+  <shorts
+    :swiperOptions="{
+      onSwiper: (_swiper) => {
+        swiper = _swiper 
+      },
+      onSlideNextTransitionEnd: async (_swiper) => {
+        const isNextFetching = (_swiper.activeIndex + 1) % 3 === 0
+        if (isNextFetching) {
+          await fetchData({
+            currentIndex: _swiper.activeIndex,
+            direction: 'next'
+          })
+
+          _swiper.slideTo(2, 0)
+        }
+      }
+    }"
+  >
+    <shorts-item v-for="(mediaData) of mediaDataList"
+      :key="mediaData.id"
+      :mediaData="mediaData"
+      :videoOptions="videoOptions"
+      @slideChange="slideChange"
+    >
+      <div v-if="!mediaData.loaded" class="skeleton"></div>
+      <div v-else class="overlay">
         <p class="title">{{ mediaData.description }}</p>
 
         <div class="channel">

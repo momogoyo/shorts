@@ -4,7 +4,7 @@ import {
 } from 'msw'
 import { mediaData } from './data/index'
 
-let currentIndex = 0
+let currentId = 0
 
 export const handlers = [
   http.get(`/api/media`, ({ request }) => {
@@ -12,19 +12,21 @@ export const handlers = [
     
     const limit = url.searchParams.get('limit')
     const direction = url.searchParams.get('direction')
+    const index = url.searchParams.get('currentIndex')
 
     const limitValue = limit ? parseInt(limit, 10) : 3
+    const currentIndex = index ? parseInt(index, 10) : 3
     
-    let startIndex = currentIndex
+    let startIndex = currentId
 
-    if (direction === 'next') {
-      startIndex = currentIndex
-    } else if (direction === 'prev') {
-      startIndex = Math.max(0, currentIndex - (limitValue * 2))
-    }
+    // if (direction === 'next') {
+    //   startIndex = currentId
+    // } else if (direction === 'prev') {
+    //   startIndex = Math.max(0, currentId - (limitValue * 2))
+    // }
 
     const endIndex = startIndex + limitValue
-    currentIndex = endIndex
+    currentId = endIndex
 
     const selectedMedia = mediaData.slice(startIndex, endIndex)
 
