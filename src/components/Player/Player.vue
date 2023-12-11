@@ -14,6 +14,13 @@ const videoEl = ref(null)
 const prefixClass = ref('player')
 const isLoad = ref(false)
 
+// plyaer ui를 가능하면 분리하는게 맞을 것 같은데..
+// 그럼 상위 컴포넌트들이랑 어떻게 통신할지 생각을 해보아야한다..
+// shorts-item에 지금은 들어가있는데 이걸 아예 분리하고 shorts ui만 남겨놓고 갈 것인지...
+// 그럼 player에는 기본적인 제어 기능만 들어가고
+// 외부에서 ui랑 통신하는 방향으로...
+// pinia를 사용해볼까?
+
 const defaultOptions = {
   autoplay: true,
   muted: true,
