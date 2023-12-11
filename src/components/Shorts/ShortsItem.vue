@@ -1,11 +1,12 @@
 <script setup lang="ts">
   import {
     ref,
-    onMounted,
-    defineProps,
-    defineEmits
+    onMounted
   } from 'vue'
-  import { SwiperSlide, useSwiper, useSwiperSlide } from 'swiper/vue'
+  import { 
+    SwiperSlide,
+    useSwiper
+  } from 'swiper/vue'
   import 'swiper/css/pagination'
 
   const props = defineProps({
@@ -25,9 +26,9 @@
     swiper.value.update()
   })
 
-  const slideChange = () => {
-    emit('slideChange', swiper.value)
-  }
+  // const slideChange = () => {
+  //   emit('slideChange', swiper.value)
+  // }
 </script>
 
 <template>

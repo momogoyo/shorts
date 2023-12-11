@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-  import { ref, defineProps, defineEmits } from 'vue'
+  import { ref } from 'vue'
   import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
   import { Swiper } from 'swiper/vue'
   import 'swiper/css/pagination'
@@ -16,35 +16,17 @@
     loop: true    
   }
 
-  const props = withDefaults(defineProps<{
-    swiperOptions: any
-  }>(), {
-    swiperOptions: {}
-  })
+const props = withDefaults(defineProps<{
+  swiperOptions: any
+}>(), {
+  swiperOptions: {}
+})
 
-  const emit = defineEmits(['slideTransition'])
+const modules = ref([
+  Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y
+])
 
-  const modules = ref([
-    Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y
-  ])
-
-  const slideChangeTransitionStart = (event) => {
-    const { previousIndex, activeIndex } = event
-
-    if (previousIndex < activeIndex) {
-      emit('slideTransition', {
-        direction: 'next',
-        currentIndex: activeIndex
-      })
-    } else {
-      emit('slideTransition', {
-        direction: 'prev',
-        currentIndex: activeIndex
-      })
-    }
-  }
-
-console.log(props.swiperOptions)
+// console.log(props.swiperOptions)
 </script>
 
 <template>
@@ -55,7 +37,6 @@ console.log(props.swiperOptions)
         ...defaultSwiperOptions,
         ...props.swiperOptions
       }"
-      @slideChangeTransitionStart="slideChangeTransitionStart"
     >
       <slot></slot>
     </swiper>
@@ -63,9 +44,9 @@ console.log(props.swiperOptions)
 </template>
 
 <style lang="scss">
-  .swiper {
-    width: 100vw;
-    height: 100vh;
-  }
+.swiper {
+  width: 100vw;
+  height: 100vh;
+}
 </style>
 
