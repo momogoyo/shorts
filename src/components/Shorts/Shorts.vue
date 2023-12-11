@@ -1,34 +1,32 @@
 
 <script setup lang="ts">
-  import { onMounted, ref } from 'vue'
-  import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
-  import { Swiper } from 'swiper/vue'
-  import 'swiper/css/pagination'
+import { onMounted, ref } from 'vue'
+import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
+import { Swiper } from 'swiper/vue'
+import 'swiper/css/pagination'
 
-  const defaultSwiperOptions = {
-    slidesPerView: 'auto',
-    spaceBetween: 30,
-    direction: 'vertical',
-    mousewheel: true,
-    pagination: { clickable: true },
-    keyboard: { enabled: true },
-    speed: 500,
-    loop: true    
-  }
+const defaultSwiperOptions = {
+  slidesPerView: 'auto',
+  spaceBetween: 30,
+  direction: 'vertical',
+  mousewheel: true,
+  pagination: { clickable: true },
+  keyboard: { enabled: true },
+  speed: 500,
+  loop: true
+}
 
-const props = withDefaults(defineProps<{
-  swiperOptions: any
-}>(), {
-  swiperOptions: {}
-})
-
-onMounted(() => {
-  console.log(props.swiperOptions)
+const props = defineProps({
+  swiperOptions: null
 })
 
 const modules = ref([
   Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y
 ])
+
+onMounted(() => {
+  console.log(props.swiperOptions)
+})
 </script>
 
 <template>

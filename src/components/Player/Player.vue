@@ -14,24 +14,26 @@ const videoEl = ref(null)
 const prefixClass = ref('player')
 const isLoad = ref(false)
 
-const props = withDefaults(defineProps<{
-  source: string
-  controls?: boolean
-  progress?: boolean
-  autoplay?: boolean
-  muted?: boolean
-  loop?: boolean
-}>(), {
-  source: '',
-  controls: true,
-  progress: true,
-  autoplay: false,
+const defaultOptions = {
+  autoplay: true,
   muted: true,
-  loop: true
+  loop: true,
+  controls: true,
+  progress: true 
+}
+
+const props = defineProps({
+  source: String,
+  videoOptions: Object
 })
 
-const isPlay = ref(props.autoplay)
-const isMute = ref(props.muted)
+const options = ref({
+  ...defaultOptions,
+  ...props.videoOptions
+})
+
+const isPlay = ref(props.videoOptions.autoplay)
+const isMute = ref(props.videoOptions.muted)
 
 const classes = computed(() => {
   return {
@@ -118,20 +120,18 @@ onMounted(() => {
 
 <template>
   <div :class="classes">
-    <div v-show="props.controls" class="controls">
+    <div v-show="options.controls" class="controls">
       <Button :icon="!isPlay ? Play() : Pause()" @click="onToggle"></Button>
       <Button :icon="isMute ? Muted(): UnMuted()" @click="onMuted"></Button>
     </div>
     <video
       ref="videoEl"
-      :src="props.source"
-      :autoplay="props.autoplay"
-      :muted="props.muted"
-      :loop="props.loop"
       crossorigin="anonymous"
+      :src="props.source"
+      v-bind="options"
     />
 
-    <div v-show="props.progress" class="progress">
+    <div v-show="options.progress" class="progress">
       <div class="progress-track">
         <div class="progress-filled"></div>
       </div>

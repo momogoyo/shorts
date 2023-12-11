@@ -30,8 +30,6 @@ const appendSlide = () => {
   
   swiper.value.update()
 }
-
-const emit = defineEmits(['play', 'muted'])
 </script>
 
 <template>
@@ -41,14 +39,9 @@ const emit = defineEmits(['play', 'muted'])
         <div class="shorts-media">
           <Player
             :source="props.mediaData.source"
-            :controls="props.videoOptions.controls"
-            :progress="props.videoOptions.progress"
-            :autoplay="props.videoOptions.autoplay"
-            :muted="props.videoOptions.muted"
-            :loop="props.videoOptions.loop"
-            @play="(event) => emit('play', event)"
-            @pause="(event) => emit('play', event)"
-            @muted="(event) => emit('muted', event)"
+            :videoOptions="{
+              ...props.videoOptions
+            }"
           />
         </div>
         <slot></slot>

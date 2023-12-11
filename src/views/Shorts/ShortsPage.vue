@@ -14,9 +14,10 @@ const mediaDataList = ref([])
 
 const videoOptions = ref({
   autoplay: false,
-  muted: true,
-  loop: true,
-  controls: true
+  // muted: true,
+  // loop: true,
+  // controls: true,
+  // progress: true
 })
 
 onMounted(async () => {
