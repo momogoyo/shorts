@@ -33,7 +33,7 @@ const fetchData = async ({
 }) => {
   try {
     const response = await fetchMediaData({ currentIndex, limit, direction })
-    const mediaData = response.data.media.map((item) => ({ ...item, loaded: false }))
+    const mediaData = response.data.media.map((item) => ({ ...item }))
 
     // slide의 개수는 최대 6개
     mediaDataList.value = [
@@ -56,6 +56,7 @@ const fetchData = async ({
       },
       onSlideNextTransitionEnd: async (_swiper) => {
         const isNextFetching = (_swiper.activeIndex + 1) % 3 === 0
+
         if (isNextFetching) {
           await fetchData({
             currentIndex: _swiper.activeIndex,
@@ -72,10 +73,7 @@ const fetchData = async ({
       :mediaData="mediaData"
       :videoOptions="videoOptions"
     >
-      <!-- @slideChange="slideChange" -->
-      <div v-if="!mediaData.loaded" class="skeleton"></div>
-
-      <div v-else class="overlay">
+      <div class="overlay">
         <p class="title">{{ mediaData.shorts.description }}</p>
 
         <div class="channel">

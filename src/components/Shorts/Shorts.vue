@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-  import { ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import { Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules'
   import { Swiper } from 'swiper/vue'
   import 'swiper/css/pagination'
@@ -22,11 +22,13 @@ const props = withDefaults(defineProps<{
   swiperOptions: {}
 })
 
+onMounted(() => {
+  console.log(props.swiperOptions)
+})
+
 const modules = ref([
   Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, A11y
 ])
-
-// console.log(props.swiperOptions)
 </script>
 
 <template>

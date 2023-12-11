@@ -1,34 +1,34 @@
 <script setup lang="ts">
-  import {
-    ref,
-    onMounted
-  } from 'vue'
-  import { 
-    SwiperSlide,
-    useSwiper
-  } from 'swiper/vue'
-  import 'swiper/css/pagination'
+import {
+  ref,
+  onMounted
+} from 'vue'
+import { 
+  SwiperSlide,
+  useSwiper
+} from 'swiper/vue'
+import 'swiper/css/pagination'
 
-  const props = defineProps({
-    mediaData: Object,
-    videoOptions: Object
-  })
+const props = defineProps({
+  mediaData: Object,
+  videoOptions: Object
+})
 
-  const emit = defineEmits(['videoLoaded', 'slideChange'])
+const root = ref(null)
+const swiper = useSwiper()
 
-  const root = ref(null)
-  const swiper = useSwiper()
+onMounted(() => {
+  appendSlide()
+})
 
-  onMounted(async () => {
-    swiper.value.wrapperEl.appendChild(root.value.$el)
-    swiper.value.wrapperEl.offsetTop
-    
-    swiper.value.update()
-  })
+const appendSlide = () => {
+  const rootEl = root.value.$el
 
-  // const slideChange = () => {
-  //   emit('slideChange', swiper.value)
-  // }
+  swiper.value.wrapperEl.appendChild(rootEl)
+  swiper.value.wrapperEl.offsetTop
+  
+  swiper.value.update()
+}
 </script>
 
 <template>
@@ -44,7 +44,7 @@
               :loop="props.videoOptions.loop"
             />
             <div v-if="props.videoOptions.controls" class="progress-bar">
-              
+                             
             </div>
           </div>
           
