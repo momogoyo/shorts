@@ -2,24 +2,18 @@
 import {
   computed,
   ref,
-  onMounted
+  onMounted,
+  watch
 } from 'vue'
+import { usePlayerStore } from '@/stores'
 // @ts-ignore
 import shaka from 'shaka-player'
-import Button from '@/components/Button'
-import { Play, Muted, Pause, UnMuted } from '@/assets/icons'
 
+const store = usePlayerStore()
 const shakaPlayer = ref(null)
 const videoEl = ref(null)
 const prefixClass = ref('player')
 const isLoad = ref(false)
-
-// plyaer ui를 가능하면 분리하는게 맞을 것 같은데..
-// 그럼 상위 컴포넌트들이랑 어떻게 통신할지 생각을 해보아야한다..
-// shorts-item에 지금은 들어가있는데 이걸 아예 분리하고 shorts ui만 남겨놓고 갈 것인지...
-// 그럼 player에는 기본적인 제어 기능만 들어가고
-// 외부에서 ui랑 통신하는 방향으로...
-// pinia를 사용해볼까?
 
 const defaultOptions = {
   autoplay: true,
@@ -33,6 +27,8 @@ const props = defineProps({
   source: String,
   videoOptions: Object
 })
+
+const emit = defineEmits(['play', 'pause'])
 
 const options = ref({
   ...defaultOptions,
@@ -48,8 +44,6 @@ const classes = computed(() => {
     [`${prefixClass.value}-loaded`]: isLoad.value
   }
 })
-
-const emit = defineEmits(['play'])
 
 const initEvents = () => {
   shakaPlayer.value.addEventListener('play', onPlay)
@@ -85,21 +79,10 @@ const onPlay = () => {
   }
 
   videoEl.value.play()
-  // 여기서 autoplay로 바꾸면 전체 비디오를 다 autoplay로 해줘야하지 않을까?
 }
 
 const onPause = () => {
   videoEl.value.pause()
-}
-
-const onToggle = () => {
-  if (isPlay.value) {
-    onPause()
-  } else {
-    onPlay()
-  }
-
-  isPlay.value = !videoEl.value.paused
 }
 
 const onMuted = () => {
@@ -119,6 +102,15 @@ const onError = (event) => {
   console.log(`Error ${detail.code}, ${detail}`)
 }
 
+// 비디오 재생 상태 감시
+watch(() => store.isPlaying, (newVal) => {
+  if (newVal) {
+    videoEl.value.play()
+  } else {
+    videoEl.value.pause()
+  }
+})
+
 onMounted(() => {
   initShaka()
   .then(() => initEvents())
@@ -127,22 +119,13 @@ onMounted(() => {
 
 <template>
   <div :class="classes">
-    <div v-show="options.controls" class="controls">
-      <Button :icon="!isPlay ? Play() : Pause()" @click="onToggle"></Button>
-      <Button :icon="isMute ? Muted(): UnMuted()" @click="onMuted"></Button>
-    </div>
     <video
       ref="videoEl"
       crossorigin="anonymous"
       :src="props.source"
       v-bind="options"
     />
-
-    <div v-show="options.progress" class="progress">
-      <div class="progress-track">
-        <div class="progress-filled"></div>
-      </div>
-    </div>
+    <slot></slot>
   </div>
 </template>
 
@@ -153,7 +136,6 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   scroll-snap-align: start;
-  
   opacity: 0;
   transition: opacity 0.25s;
 
@@ -161,42 +143,9 @@ onMounted(() => {
     opacity: 1;
   }
 
-  .controls {
-    position: absolute;
-    left: 0;
-    top: 0;
-    padding: 16px 16px 72px 16px;
-  }
-
   video {
     object-fit: fill;
     width: 100%;
-  }
-
-  .progress {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    cursor: pointer;
-    z-index: 30;
-
-    &-track {
-      position: relative;
-      width: 100%;
-      height: 4px;
-      background-color: rgba(255, 255, 255, 0.8);
-    }
-
-    &-filled {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--primary-color);
-      transform: scaleX(50%);
-      transform-origin: 0 0 0;
-    }
   }
 }
 </style>

@@ -8,19 +8,9 @@ import {
   useSwiper
 } from 'swiper/vue'
 import 'swiper/css/pagination'
-import Player from '../Player'
-
-const props = defineProps({
-  mediaData: null,
-  videoOptions: null
-})
 
 const root = ref(null)
 const swiper = useSwiper()
-
-onMounted(() => {
-  appendSlide()
-})
 
 const appendSlide = () => {
   const rootEl = root.value.$el
@@ -30,20 +20,19 @@ const appendSlide = () => {
   
   swiper.value.update()
 }
+
+onMounted(() => {
+  appendSlide()
+})
 </script>
 
 <template>
-  <swiper-slide class="swiper-slide" :data-id="props.mediaData.id" ref="root">
+  <swiper-slide
+    class="swiper-slide"
+    ref="root"
+  >
     <div class="shorts-item">
       <div class="shorts-inner">
-        <div class="shorts-media">
-          <Player
-            :source="props.mediaData.source"
-            :videoOptions="{
-              ...props.videoOptions
-            }"
-          />
-        </div>
         <slot></slot>
       </div>
     </div>

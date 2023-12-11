@@ -8,27 +8,20 @@ import {
   Shorts,
   ShortsItem
 } from '@/components/Shorts'
+import Player from '@/components/Player'
+import Button from '@/components/Button'
+import { Play, Muted } from '@/assets/icons'
+import { usePlayerStore } from '@/stores'
+
+const store = usePlayerStore()
 
 const swiper = ref(null)
 const mediaDataList = ref([])
-
 const videoOptions = ref({
-  autoplay: false,
-  // muted: true,
-  // loop: true,
-  // controls: true,
-  // progress: true
+  autoplay: false
 })
 
-onMounted(async () => {
-  await fetchData({
-    currentIndex: 0,
-    limit: 3,
-    direction: ''
-  })
-})
-
-const fetchData = async ({ 
+const fetchData = async ({
   currentIndex = 0,
   limit = 3,
   direction = 'next'
@@ -48,6 +41,14 @@ const fetchData = async ({
     console.error('API 요청 중 오류 발생:', error)
   }
 }
+
+onMounted(async () => {
+  await fetchData({
+    currentIndex: 0,
+    limit: 3,
+    direction: ''
+  })
+})
 </script>
 
 <template>
@@ -71,11 +72,26 @@ const fetchData = async ({
     }"
   >
     <shorts-item 
-      v-for="(mediaData) of mediaDataList"
+      v-for="mediaData of mediaDataList"
       :key="mediaData.id"
-      :mediaData="mediaData"
-      :videoOptions="videoOptions"
+      :id="mediaData.id"
     >
+      <div class="shorts-media">
+        <Player
+          :source="mediaData.source"
+          :videoOptions="videoOptions"
+        >
+          <div class="controls">
+            <Button :icon="Play()" @click="() => store.togglePlay()"></Button>
+          </div>
+
+          <div class="progress">
+            <div class="progress-track">
+              <div class="progress-filled"></div>
+            </div>
+          </div>
+        </Player>
+      </div>
       <div class="overlay">
         <p class="title">{{ mediaData.shorts.description }}</p>
 
@@ -138,6 +154,39 @@ const fetchData = async ({
       color: var(--primary-text-color);
       font-weight: 500;
     }
+  }
+}
+.controls {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 16px 16px 72px 16px;
+}
+
+
+.progress {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  cursor: pointer;
+  z-index: 30;
+
+  &-track {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  &-filled {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    transform: scaleX(50%);
+    transform-origin: 0 0 0;
   }
 }
 </style>
