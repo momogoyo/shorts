@@ -8,10 +8,11 @@ import {
   useSwiper
 } from 'swiper/vue'
 import 'swiper/css/pagination'
+import Player from '../Player'
 
 const props = defineProps({
-  mediaData: Object,
-  videoOptions: Object
+  mediaData: null,
+  videoOptions: null
 })
 
 const root = ref(null)
@@ -29,6 +30,8 @@ const appendSlide = () => {
   
   swiper.value.update()
 }
+
+const emit = defineEmits(['play', 'muted'])
 </script>
 
 <template>
@@ -36,20 +39,17 @@ const appendSlide = () => {
     <div class="shorts-item">
       <div class="shorts-inner">
         <div class="shorts-media">
-          <div class="player">
-            <video
-              :src="props.mediaData.source"
-              :autoplay="props.videoOptions.autoplay"
-              :muted="props.videoOptions.muted"
-              :loop="props.videoOptions.loop"
-            />
-            <div v-if="props.videoOptions.controls" class="progress-bar">
-                             
-            </div>
-          </div>
-          
-          <!-- 로딩 중 -->
-          <!-- <div v-else class="skeleton"></div> -->
+          <Player
+            :source="props.mediaData.source"
+            :controls="props.videoOptions.controls"
+            :progress="props.videoOptions.progress"
+            :autoplay="props.videoOptions.autoplay"
+            :muted="props.videoOptions.muted"
+            :loop="props.videoOptions.loop"
+            @play="(event) => emit('play', event)"
+            @pause="(event) => emit('play', event)"
+            @muted="(event) => emit('muted', event)"
+          />
         </div>
         <slot></slot>
       </div>
@@ -76,15 +76,18 @@ const appendSlide = () => {
 
   .shorts-media {
     position: absolute;
-    z-index: -1;
+    // z-index: -1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    // pointer-events: none;
+
     video {
       max-width: 100%;
       object-fit: cover;
+      z-index: -1;
+      pointer-events: none;
     }
   }
 </style>

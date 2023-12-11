@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "shaka-player": "^4.7.1",
     "swiper": "^11.0.5",
     "vue": "^3.3.8"
   },

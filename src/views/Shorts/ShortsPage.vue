@@ -13,9 +13,10 @@ const swiper = ref(null)
 const mediaDataList = ref([])
 
 const videoOptions = ref({
-  autoplay: true,
+  autoplay: false,
   muted: true,
-  loop: true
+  loop: true,
+  controls: true
 })
 
 onMounted(async () => {
@@ -40,7 +41,7 @@ const fetchData = async ({
       ...mediaDataList.value.splice(-3),
       ...mediaData
     ]
-    
+
     // mediaDataList.value.forEach(item=> console.log(item.id))
   } catch (error) {
     console.error('API 요청 중 오류 발생:', error)
@@ -68,7 +69,8 @@ const fetchData = async ({
       }
     }"
   >
-    <shorts-item v-for="(mediaData) of mediaDataList"
+    <shorts-item 
+      v-for="(mediaData) of mediaDataList"
       :key="mediaData.id"
       :mediaData="mediaData"
       :videoOptions="videoOptions"
@@ -96,8 +98,13 @@ const fetchData = async ({
   display: flex;
   flex-direction: column;
   background-image: var(--shorts-gradient);
-  padding: 72px 16px 16px 16px;
+  padding: 72px 16px 32px 16px;
   pointer-events: none;
+
+  .controls {
+    display: flex;
+    pointer-events: auto;
+  }
 
   .title {
     margin: 0;

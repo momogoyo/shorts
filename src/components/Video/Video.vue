@@ -87,7 +87,6 @@ const props = withDefaults(defineProps<{
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 
-
   .video-overlay {
     position: absolute;
     left: 0;
